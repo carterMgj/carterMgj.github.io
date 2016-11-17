@@ -15,7 +15,6 @@ tags:
 ---
 
 
-
 ### 知识点：
 - windows下的格式化字符串fsb利用   
 - 利用mona查询各个模块开启安全机制   
@@ -44,7 +43,9 @@ int main (int argc, char *argv[])
 程序的流程是从flag.txt中读取字符串，再打印出来。很明显，程序中存在一个windows下的格式化字符串漏洞。
 
 ### 二. 基本知识：
+
 ##### **1. 格式化字符串相关知识**
+
 %x：依次打印出栈上数据
 ![图片]("https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-11-17-windows-pwn/1.png")
 %100x：指定数据打印时显示长度为100字节
@@ -83,7 +84,9 @@ int main(int argc, char* argv[])
 }
 ```
 结合IDA，定位到具体代码，就可以跟进到shellcode处，查看shellcode的执行情况了
+
 ##### **5. 查看程序开启安全机制**
+
 在immunity Debugger中，使用 
 ```
 !mona modules
