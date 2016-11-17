@@ -40,7 +40,7 @@ int main (int argc, char *argv[])
 }
 ```
 
-程序的流程是从flag.txt中读取字符串，再打印出来。很明显，程序中存在一个windows下的格式化字符串漏洞。
+程序的流程是从flag.txt中读取字符串再打印出来。很明显，程序中存在一个windows下的格式化字符串漏洞。
 
 ### 二. 基本知识：
 
@@ -92,7 +92,7 @@ int main(int argc, char* argv[])
 ```python
 !mona modules
 ```
-可以查看程序加载的各个模块对应开启的安全机制
+可以查看程序各个加载模块对应开启的安全机制
 ![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-11-17-windows-pwn/5.png)
 上图可见，对于程序本身什么安全机制都没开启。因为程序没有开启数据执行保护DEP，所以可以把shellcode放在栈上，攻击返回地址后跳转到shellcode处执行。
 
@@ -126,7 +126,7 @@ alt+k查看栈回溯，可以看到最近的一个返回地址存储在栈地址
 ![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-11-17-windows-pwn/9.png)
 崩溃时，查看栈，确定存储输入的起始地址是0x12fb48
 ![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-11-17-windows-pwn/10.png)
-所以我们的目的就是令：EAX=0x12faf0  ECX=0x12fb48
+所以我们的目的就是令：EAX=0x12FaF0  ECX=0x12FB48
 
 ### 五. 编写漏洞利用脚本
 输入构造为：
@@ -136,6 +136,7 @@ alt+k查看栈回溯，可以看到最近的一个返回地址存储在栈地址
 - 需要被覆盖的地址
 
 **exp1.py**
+
 ```python
 shellcode = '........'
 ret_addr = '\xf0\xfa\x12\x00'
