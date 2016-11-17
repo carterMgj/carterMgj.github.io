@@ -49,12 +49,11 @@ int main (int argc, char *argv[])
 %x：依次打印出栈上数据
 ![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-11-17-windows-pwn/1.png)
 %100x：指定数据打印时显示长度为100字节
-![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-11-17-windows-pwn/2.png)
 %n：打印出栈上数据作为地址时，该地址的内容（当该地址不可达时，就会崩溃）
 
 ##### **2. 设置immunity debugger为默认调试器**
-直接在注册表里修改，该方法比较简单粗暴
-![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-11-17-windows-pwn/3.png)
+直接在注册表里修改，该方法比较简单粗暴:
+HKEY_LOCAL_MACHINE -->  SOFTWARE --> Microsoft --> Windows NT --> CurrentVersion --> AeDebug
 ![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-11-17-windows-pwn/4.png)
 (PS：同样方法，win7下设置Ollydbg为默认调试器一直失败，但是设置immunityDbg为默认调试器则可以，不知道为什么)
 
