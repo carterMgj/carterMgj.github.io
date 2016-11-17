@@ -1,15 +1,13 @@
 ---
-layout:     keynote
+layout:     post
 title:      "windows格式化字符串漏洞探究"
 subtitle:   "集Fsb漏洞构造、分析、利用的小实验"
-iframe:     ""
-navcolor:   "invert"
-date:       2016-11-16
-author:     "carter"
+date:       2016-11-17 15:32:25
+author:     "Carter"
 header-img: "https://raw.githubusercontent.com/carterMgj/carterMgj.github.io/master/img/post-bg-re-vs-ng2.jpg"
 header-mask: 0.3
+catalog:    true
 tags:
-    - OS
     - Windows
     - pwn
 ---
