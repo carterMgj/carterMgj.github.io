@@ -6,7 +6,7 @@ iframe:     ""
 navcolor:   "invert"
 date:       2016-11-16
 author:     "carter"
-header-img: "img/post-bg-re-vs-ng2.jpg"
+header-img: "https://raw.githubusercontent.com/carterMgj/carterMgj.github.io/master/img/post-bg-re-vs-ng2.jpg"
 header-mask: 0.3
 tags:
     - OS
@@ -130,6 +130,7 @@ alt+k查看栈回溯，可以看到最近的一个返回地址存储在栈地址
 
 ### 五. 编写漏洞利用脚本
 输入构造为：
+
 - shellcode
 - 相应多的%x
 - 一些%nx来调整输出长度
