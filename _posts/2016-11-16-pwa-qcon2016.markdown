@@ -1,5 +1,5 @@
 ---
-layout:     default
+layout:     post
 title:      "windows格式化字符串漏洞探究"
 subtitle:   "集Fsb漏洞构造、分析、利用的小实验"
 date:       2016-11-17 15:32:25
