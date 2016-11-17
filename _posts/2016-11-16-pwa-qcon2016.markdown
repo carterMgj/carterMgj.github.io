@@ -47,7 +47,7 @@ int main (int argc, char *argv[])
 ##### **1. 格式化字符串相关知识**
 
 %x：依次打印出栈上数据
-![图片]("https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-11-17-windows-pwn/1.png")
+![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-11-17-windows-pwn/1.png)
 %100x：指定数据打印时显示长度为100字节
 [图片]
 %n：打印出栈上数据作为地址时，该地址的内容（当该地址不可达时，就会崩溃）
