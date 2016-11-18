@@ -70,7 +70,7 @@ ga_domain: huangxuan.me
 
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
-sidebar-about-description: "写写代码，调调漏洞<br>生活不仅只有代码，还有诗意和远方"
+sidebar-about-description: "写写代码，调调漏洞<br>生活不仅只有代码<br>还有诗意和远方"
 sidebar-avatar: /img/avatar.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 
