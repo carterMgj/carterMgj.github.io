@@ -58,11 +58,11 @@ int main()
 }
 ```
 
-在print函数处下断，程序停在了调用print函数的地方
+在print函数处下断，程序停在了调用print函数的地方,可以看到此时函数参数位于栈顶位置
 
 ![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-11-18-pwn-base-knowledge/1.png)
 
-跟进到print函数，进入到函数的时候，栈的情况如下
+跟进到print函数，进入到函数的时候栈的情况如下,可以看到此时函数参数位于栈上第二个位置，栈顶元素为函数的返回地址
 
 ![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-11-18-pwn-base-knowledge/2.png)
 
