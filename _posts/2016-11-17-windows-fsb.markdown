@@ -13,14 +13,6 @@ tags:
 ---
 
 
-> 下滑这里查看更多内容
-
-
-### [Watch Slides → ](https://huangxuan.me/pwa-qcon2016/)
-
-<img src="https://huangxuan.me/pwa-qcon2016/attach/qrcode.png" width="350" />
-
-
 ###**知识点：**
 - windows下的格式化字符串fsb利用   
 - 利用mona查询各个模块开启安全机制   
