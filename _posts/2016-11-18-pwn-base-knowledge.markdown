@@ -1,7 +1,7 @@
 ---
 layout:     post
-title:      "windows格式化字符串漏洞探究"
-subtitle:   "集Fsb漏洞构造、分析、利用的小实验"
+title:      "linux程序的一些基本知识"
+subtitle:   "总结一下pwn题中所涉及到的linux程序、函数调用等姿势"
 date:       2016-11-18 11:23:25
 author:     "Carter"
 header-img: "img/post-bg-apple-event-2015.jpg"
@@ -10,14 +10,18 @@ tags:
     - pwn
 ---
 
+
 ### 一. 关于程序调用时压栈顺序
 对于函数
+
 ```c++
 func(arg[1],arg[2],.....,arg[n])
 ```
+
 压栈顺序为：参数（从右到左）--> 返回地址 --> ebp
 
 压栈后，栈上情况如下：
+
 ***
 低地址：
 　　　ebp
@@ -28,6 +32,7 @@ func(arg[1],arg[2],.....,arg[n])
 　　　arg[n]　　
 高地址：
 ***
+
 因此存在诸如格式化字符串等任意内存写漏洞时，Get shell最直接的方法就是：
 
  改写程序返回地址为so库中system函数的地址，同时布置好栈，将参数“/bin/sh\x00”放在'返回地址往后两个单位内存地址'处即可 。为什么要放在其后两个单位内存地址处，原因见（探究程序进入到子函数时，栈的状态）讲解
@@ -37,6 +42,7 @@ func(arg[1],arg[2],.....,arg[n])
 
 ### 二. 探究程序进入函数前后，栈的状态
 实验程序代码如下：
+
 ```c++
 #include <stdio.h>
 int  print(char* s)
@@ -51,6 +57,7 @@ int main()
  	return 0;
 }
 ```
+
 在print函数处下断，程序停在了调用print函数的地方
 
 ![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-11-18-pwn-base-knowledge/1.png)
@@ -58,17 +65,16 @@ int main()
 跟进到print函数，进入到函数的时候，栈的情况如下
 
 ![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-11-18-pwn-base-knowledge/2.png)
-</br>
-</br>
-二. 关于大端模式和小端模式：
+
+### 二. 关于大端模式和小端模式：
 > 小端模式：数据的高位对应高地址
 > 大端模式：数据的高位对应低地址
 
-　　举个栗子：对于 0xf76a3a84 这个数，按照其他进制计数规则，左边为高位，右边为地位，因此 0xf7 为最高位，相反，0x84为最低位
+举个栗子：对于 0xf76a3a84 这个数，按照其他进制计数规则，左边为高位，右边为地位，因此 0xf7 为最高位，相反，0x84为最低位
 
 ![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-11-18-pwn-base-knowledge/3.png)
 
-　　因为内存中地址从左到右是依次增大的，所以 0xf76a3a84 这个数在内存中实际分布为：
+因为内存中地址从左到右是依次增大的，所以 0xf76a3a84 这个数在内存中实际分布为：
 　　
 ![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-11-18-pwn-base-knowledge/4.png)
 
@@ -76,10 +82,11 @@ int main()
 
 ### 三.  关于ELF程序的几个段
 一个程序一般分为3段:text段,data段,bss段
-text段:  可读可执行，存放程序代码,编译时确定
-data段:  只可读，存放在编译阶段(而非运行时)就能确定的数据,
+
+ - text段:  可读可执行，存放程序代码,编译时确定
+ - data段:  只可读，存放在编译阶段(而非运行时)就能确定的数据,
 就是通常所说的静态存储区,赋了初值的全局变量、静态变量和常量存放在这个区域
-bss段:   可读可写，定义时没有赋初值的全局变量和静态变量,放在这个区域，比如程序的got表地址就位于该区域
+ - bss段:   可读可写，定义时没有赋初值的全局变量和静态变量,放在这个区域，比如程序的got表地址就位于该区域
 
 如图：
 
