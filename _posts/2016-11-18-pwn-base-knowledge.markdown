@@ -4,14 +4,11 @@ title:      "linux程序的一些基本知识""
 subtitle:   "总结一下pwn题中所涉及到的linux程序、函数调用等姿势"
 date:       2016-11-18 10:40:25
 author:     "Carter"
-header-img: "img/post-bg-re-vs-ng2.jpg"
-header-mask: 0.3
-catalog:    true
+header-img: "img/post-bg-apple-event-2015.jpg"
 tags:
+    - Linux
     - pwn
-    - linux
 ---
-
 
 
 ### 一. 关于程序调用时压栈顺序

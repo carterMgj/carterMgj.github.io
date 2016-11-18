@@ -1,16 +1,15 @@
 ---
 layout:     post
 title:      "windows格式化字符串漏洞探究"
-subtitle:   "姑且定义为一个集合Fsb漏洞构造、分析、利用的小实验"
-date:       2016-11-17 11:40:25
+subtitle:   "集Fsb漏洞构造、分析、利用的小实验"
+date:       2016-11-17 15:32:25
 author:     "Carter"
-header-img: "img/post-bg-re-vs-ng2.jpg"
-header-mask: 0.3
-catalog:    true
+header-img: "img/post-bg-apple-event-2015.jpg"
 tags:
-    - OS
-    - PWA
+    - Windows
+    - pwn
 ---
+
 
 
 ###**知识点：**
