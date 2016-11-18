@@ -90,37 +90,19 @@ service-worker: true
 # Friends
 friends: [
     {
-        title: "Su",
-        href: "http://su.gallery/"
+        title: "bluecake",
+        href: "http://www.jianshu.com/p/da895591f878"
     },{
-        title: "乱序",
-        href: "http://mida.re/"
+        title: "KsisWhite",
+        href: "http://ksisw.com/"
     },{
-        title: "前端外刊评论",
-        href: "http://qianduan.guru/"
+        title: "Hanley Xiao",
+        href: "https://x1a0k3.github.io/"
     },{
-        title: "天镶的博客",
-        href: "http://lingyu.wang/"
+        title: "rocky",
+        href: "http://rockyrays.github.io/"
     },{
-        title: "Luke 的自留地",
-        href: "http://hmqk1995.github.io"
-    },{
-        title: "Ebn's Blog",
-        href: "http://ebnbin.com/"
-    },{
-        title: "SmdCn's Blog",
-        href: "http://blog.smdcn.net"
-    },{
-        title: "解旻的博客",
-        href: "http://xieminis.me/"
-    },{
-        title: "DHong Say",
-        href: "http://dhong.co"
-    },{
-        title: "大佬的世界",
-        href: "http://ingf.github.io/"
-    },{
-        title: "前端神盾局",
-        href: "http://wepiaofei.github.io/blog/"
+        title: "lid0",
+        href: "https://lid0.github.io/"
     }
 ]
