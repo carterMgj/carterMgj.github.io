@@ -121,7 +121,7 @@ int main()
    conn = process('./pwn1')   #echo为要进行pwn的程序名称
    raw_input('pause')
  3. 运行 python 脚本
- 4. 输入sudo gdb pwn1 \`pidof pwn1\` 进入到gdb调试，pdisass反汇编一下函数或者IDA静态查看，在你感兴趣的位置下好断点
+ 4. 另外启动一个shell,输入sudo gdb pwn1 \`pidof pwn1\` 进入到gdb调试，pdisass反汇编一下函数或者IDA静态查看，在你感兴趣的位置下好断点
  5. 在gdb中输入 c (continue) ，让程序继续执行
  6. 此时的python脚本会停在 raw_input('pause')这句，等待输入；当gdb attach上去并且下断都完成以后，在python脚本的bash里按一下回车，python脚本就跑起来了，就可以开始一步步跟踪python脚本与程序的交互过程了  
 
