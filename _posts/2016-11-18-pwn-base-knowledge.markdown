@@ -22,7 +22,7 @@ func(arg[1],arg[2],.....,arg[n])
 
 压栈后，栈上情况如下：
 
-```python
+```c++
 低地址：
 　　　ebp
 　　　函数返回地址
@@ -67,9 +67,7 @@ int main()
 ![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-11-18-pwn-base-knowledge/2.png)
 
 ### 二. 关于大端模式和小端模式：
-> 小端模式：数据的高位对应高地址
-
-> 大端模式：数据的高位对应低地址
+> 小端模式：数据的高位对应高地址<\br>大端模式：数据的高位对应低地址
 
 举个栗子：对于 0xf76a3a84 这个数，按照其他进制计数规则，左边为高位，右边为地位，因此 0xf7 为最高位，相反，0x84为最低位
 
@@ -127,7 +125,6 @@ int main()
 
 ### 六. 对于 leave ，ret指令的理解
 leave做的事情：
-
  - new_esp  = old_ebp + 4 （因为栈的地址是从高地址往低地址增长）
  - new_ebp = * old_ebp
 
