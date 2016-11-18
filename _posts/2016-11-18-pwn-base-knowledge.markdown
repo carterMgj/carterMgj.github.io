@@ -6,7 +6,7 @@ date:       2016-11-18 11:23:25
 author:     "Carter"
 header-img: "img/post-bg-apple-event-2015.jpg"
 tags:
-    - Windows
+    - Linux
     - pwn
 ---
 
