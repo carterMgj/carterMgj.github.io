@@ -1,15 +1,14 @@
 ---
 layout:     post
-title:      "linux程序的一些基本知识""
-subtitle:   "总结一下pwn题中所涉及到的linux程序、函数调用等姿势"
-date:       2016-11-18 10:40:25
+title:      "windows格式化字符串漏洞探究"
+subtitle:   "集Fsb漏洞构造、分析、利用的小实验"
+date:       2016-11-18 11:23:25
 author:     "Carter"
 header-img: "img/post-bg-apple-event-2015.jpg"
 tags:
-    - Linux
+    - Windows
     - pwn
 ---
-
 
 ### 一. 关于程序调用时压栈顺序
 对于函数
