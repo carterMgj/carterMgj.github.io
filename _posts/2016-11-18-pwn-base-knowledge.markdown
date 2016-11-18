@@ -4,7 +4,7 @@ title:      "linux程序的一些基本知识"
 subtitle:   "总结一下pwn题中所涉及到的linux程序、函数调用等姿势"
 date:       2016-11-18 11:23:25
 author:     "Carter"
-header-img: "img/post-bg-apple-event-2015.jpg"
+header-img: "img/post-bg-unix-linux.jpg"
 tags:
     - Linux
     - pwn
