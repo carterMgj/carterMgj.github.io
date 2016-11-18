@@ -4,7 +4,7 @@ title:      "linux漏洞利用方式ROP探究"
 subtitle:   "全是干货，一点即燃"
 date:       2016-11-18 16:55:25
 author:     "Carter"
-header-img: "img/post-bg-unix-linux.jpg"
+header-img: "img/post-bg-re-vs-ng2.jpg"
 tags:
     - Linux
     - pwn
@@ -28,7 +28,7 @@ x86_64系统调用时寄存器状况：
 ##### 1. 布置寄存器
 在64bit系统中，参数需要通过 rdi、rsi、rdx进行传递，所以需要考虑如何将相应的数值放到寄存器中。需要寻找类似“pop edi”这样的指令，或者'曲线救国'寻找如下这样的指令集合
    
-```c++
+```
 pop r12
 mov edi r12
 ```
@@ -36,6 +36,7 @@ mov edi r12
 
 #### 2. 获取字符串'/bin/sh'在内存中地址 
 对于如何获得'/bin/sh'字符串在内存中的地址，谈两点思路：
+
  - 思路一是调用scanf函数，控制scanf相关参数，将字符串读入到指定bss段地址
  - 思路二是利用已经泄露的so库函数地址，在IDA中静态查看so库中'/bin/sh'字符串的偏移值，通过计算得到字符串加载到的内存地址
 
@@ -47,7 +48,7 @@ mov edi r12
 ```
 pop xxx
 pop yyy
-mov xxx，dword ptr[yyy]
+mov xxx, dword ptr[yyy]
 ```
 
 
