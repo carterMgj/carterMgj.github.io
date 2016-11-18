@@ -91,7 +91,7 @@ service-worker: true
 friends: [
     {
         title: "bluecake",
-        href: "http://www.jianshu.com/p/da895591f878"
+        href: "http://www.jianshu.com/users/2056b1040e7d/timeline"
     },{
         title: "KsisWhite",
         href: "http://ksisw.com/"
