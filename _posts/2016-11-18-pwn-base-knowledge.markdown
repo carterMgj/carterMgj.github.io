@@ -22,7 +22,7 @@ func(arg[1],arg[2],.....,arg[n])
 
 压栈后，栈上情况如下：
 
-***
+```python
 低地址：
 　　　ebp
 　　　函数返回地址
@@ -31,7 +31,7 @@ func(arg[1],arg[2],.....,arg[n])
 　　　 ....
 　　　arg[n]　　
 高地址：
-***
+```
 
 因此存在诸如格式化字符串等任意内存写漏洞时，Get shell最直接的方法就是：
 
@@ -68,6 +68,7 @@ int main()
 
 ### 二. 关于大端模式和小端模式：
 > 小端模式：数据的高位对应高地址
+
 > 大端模式：数据的高位对应低地址
 
 举个栗子：对于 0xf76a3a84 这个数，按照其他进制计数规则，左边为高位，右边为地位，因此 0xf7 为最高位，相反，0x84为最低位
@@ -113,7 +114,7 @@ int main()
 ![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-11-18-pwn-base-knowledge/6.png)
 
 
-五.  二进制文件与python利用脚本交互 调试技巧
+### 五. 二进制文件与python利用脚本交互 调试技巧
 
  2. 在写的python脚本中写入：
    from pwn import *
