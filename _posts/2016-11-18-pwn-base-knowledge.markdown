@@ -22,7 +22,7 @@ func(arg[1],arg[2],.....,arg[n])
 
 压栈后，栈上情况如下：
 
-```c++
+```
 低地址：
 　　　ebp
 　　　函数返回地址
@@ -125,6 +125,7 @@ int main()
 
 ### 六. 对于 leave ，ret指令的理解
 leave做的事情：
+
  - new_esp  = old_ebp + 4 （因为栈的地址是从高地址往低地址增长）
  - new_ebp = * old_ebp
 
