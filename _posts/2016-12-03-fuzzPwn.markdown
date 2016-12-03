@@ -14,18 +14,19 @@ tags:
 
 
 ### 一. 题目描述：
+
 题目只给了一个IP地址和端口，并没有给二进制程序，第一次遇到这类型的题目，感觉很有挑战性。
 题目提示输入password，输入后会显示'No password,no game'字段，然后循环不断地让你输入
-![图片]
-(https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-12-03-Hctf-fuzzPwn/1.png)
+![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-12-03-Hctf-fuzzPwn/1.png)
 另外主办方提示：
-  1. 这道题没有必要爆破密码
-  2. 发送的数据量不要超过0x100个
+ 1. 这道题没有必要爆破密码
+ 2. 发送的数据量不要超过0x100个
 
 ### 二. 思路探究：
 既然是**Blind-fuzz**，感觉题目本身不会太难，估计就是一个简单的栈溢出利用。既然如此，程序保护机制中：栈保护「Canary」、代码段随机化「PIE」都不可能开启。下面就来逐步进行我们的fuzz：
 #### 1.根据题目提示和分析，模仿题目实现了一段代码
 代码如下：
+
 ```c++
 #include <stdio.h>
 #include <string.h>
@@ -66,6 +67,7 @@ int check()
 
 #### 2. 通过fuzz确定：使栈溢出需要输入字符的长度
 代码如下：
+
 ```python
 from pwn import *
 context.log_level = 'debug'
@@ -84,13 +86,13 @@ def exp1():
 exp1()
 ```
 结果如下图，可以看到当payload的长度为72时，程序不输出'No password,no game'。
-![图片]
-(https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-12-03-Hctf-fuzzPwn/2.png)
+![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-12-03-Hctf-fuzzPwn/2.png)
 **推测：**此时存在栈溢出函数的EBP被覆盖为无效地址，导致函数返回时读取EBP内容无效，从而程序崩溃退出，所以未能继续执行输出'No password,no game'。所以确定要覆盖到返回地址之前，需要的payload长度为72。
 
 
 #### 3. 通过fuzz找到：一些关键的返回地址
 代码如下：
+
 ```python
 from pwn import *
 
@@ -112,8 +114,7 @@ def exp1():
 exp1()
 ```
 发现在0x400700附近，出现了如下图所示的异常：
-![图片]
-(https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-12-03-Hctf-fuzzPwn/3.png)
+![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-12-03-Hctf-fuzzPwn/3.png)
  - 什么都没有收到的情况是因为：返回到了某个需要参数输入的函数，正在等待参数输入；
  - 打印出'No password,no game'的情况是因为：又返回到了主函数内，从新进行了一遍主函数。
 **得出结论：**函数的主代码段就在0x400700附近，因此可以大大缩小了fuzz的范围。0x400711是一个位于主函数中地址，返回到该地址可以成功的输出'No password,no game'
@@ -122,6 +123,7 @@ exp1()
 #### 4. 找到'pop rdi,ret'的地址
 因为是64位程序，要利用最取巧的方法就是找到'pop rdi,ret'的地址。接下来就通过fuzz找到该地址。
 在64bit程序中，通常存在一个'pop r15；ret'，对应的字节码为'41 5f c3'，后两字节码'5f c3'对应的汇编为'pop rdi;ret'。当一个地址满足如下三个payload都能正常打印'NO password,no game'时，就可以得到一个'pop rdi;ret'的地址。
+
 ```python
 Payload1 = 'a'*72 + p64(addr-1)+p64(0)+p64(0x400711)   #pop r15,ret
 Payload2 = 'a'*72 + p64(addr)+p64(0)+p64(0x400711)       #pop rdi,ret
@@ -155,15 +157,16 @@ def exp1():
 exp1()
 ```
 经过测试发现了0x4007c3这个地址满足以上三个条件，得到0x4007c3地址就是一个'pop rdi,ret'地址
-![图片]
-(https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-12-03-Hctf-fuzzPwn/4.png)
+![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-12-03-Hctf-fuzzPwn/4.png)
 
 #### 5. 寻找输出函数的地址
 接下来需要找到有输出功能函数(如puts)的plt表的地址，构造：
+
 ```python
 payload = 'a'*72 + p64(pop_rdi_ret) +p64(0x400000)+p64(addr)
 ```
-如果程序打印前4个字节为'\x7fELF'，则addr为puts_plt。
+如果程序打印前4个字节为'\x7fELF'，则addr为puts_plt
+
 ```python
 from pwn import *
 context.log_level = 'debug'
@@ -184,10 +187,10 @@ def exp1():
 exp1()
 ```
 经过测试这样的地址不只一个，我们选其中一个：0x400570
-![图片]
-(https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-12-03-Hctf-fuzzPwn/5.png)
+![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-12-03-Hctf-fuzzPwn/5.png)
 
 #### 6. 现在我们知道了 0x4007c3是'pop rdi,ret'，0x400570是puts函数的plt表地址。组合起来也就可以完成任意内存泄露的效果。首先我们泄露程序的代码段内存（0x0400000-0x0401000，大小随意）和程序数据段内存（0x601000-0x602000，大小随意）
+
 ```python
 from pwn import *
  
@@ -271,10 +274,8 @@ exp4()
 得到code.bin后查看code.bin偏移为0x570地址的内容，该地址为0x400570,对应puts函数的plt表地址，其中应该存放的是一个'jmp *puts_got'指令。
 **在这里有一个技巧：**随意拖一个程序到gdb，通过gdb中set命令修改0x400570内存为相应的机器码，就可以从机器码得到汇编代码了。
 由下图可知：远端程序puts函数的got表地址为0x601018
-![图片]
-(https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-12-03-Hctf-fuzzPwn/6.png)
-知道put_got表地址后，就可以从data.bin中查看0x18地址,即0x601018地址内容，此时就可以泄露puts函数的内存地址，从而可以泄露libc基址了。
-![图片]
-(https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-12-03-Hctf-fuzzPwn/7.png)
+![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-12-03-Hctf-fuzzPwn/6.png)
+知道put_got表地址后，就可以从data.bin中查看0x18地址,即0x601018地址内容，此时就可以泄露puts函数的内存地址，从而可以泄露libc基址了
+![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-12-03-Hctf-fuzzPwn/7.png)
 此次，基本信息已经全部获得，下面就是常规的getshell过程了。
 
