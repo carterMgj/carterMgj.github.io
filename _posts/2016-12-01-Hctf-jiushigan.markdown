@@ -64,7 +64,9 @@ gdb.attach(pidof('pwn1')[-1],open('debug'))
 再来看看**删除字符串函数**:首先判断字符串对应的堆管理结构的第二个位置是否为0[**漏洞所在：第二个位置是函数地址永远不可能为0,判断无效**]，然后调用堆块中存储的'处理删除字符串函数'。如果我们可以覆盖此函数地址为其他地址，再释放该堆块，那么就可以任意函数执行了
 ![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-12-01-Hctf-jiushigan/4.png)
 
+
 ### 三. 漏洞利用：
+
 1. 首先输入3个长度小于15的字符串，申请3块内存，此时堆管理结构如下：
 ![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-12-01-Hctf-jiushigan/5.png)
 
