@@ -87,6 +87,7 @@ C --> B --> A
 由调试可知，参数正好是输入字符串，所以就可以了任意函数执行并控制参数
 ![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-12-01-Hctf-jiushigan/9.png)
 **5.** 顺利的调用了printf('%170$p')，可以泄露存放在栈上的__libc_start_main+240的地址，从而可以计算出system函数的地址
+
 **6.** 接着再执行一遍以上过程，从新触发任意函数执行的漏洞，执行system('/bin/sh')即可获取shell
 
 ### 唠叨几句：
