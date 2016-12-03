@@ -118,6 +118,7 @@ exp1()
 ```
 发现在0x400700附近，出现了如下图所示的异常：
 ![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-12-03-Hctf-fuzzPwn/3.png)
+**分析:**
 - 0x40070c --> 什么都没有收到的情况是因为：返回到了某个需要参数输入的函数，正在等待参数输入
 - 0x400711 --> 打印出'No password,no game'的情况是因为：又返回到了主函数内，从新进行了一遍主函数。
 
