@@ -67,8 +67,7 @@ gdb.attach(pidof('pwn1')[-1],open('debug'))
 
 
 ### 三. 漏洞利用：
-**aa**
-1. 首先输入3个长度小于15的字符串，申请3块内存，此时堆管理结构如下：
+**1.**首先输入3个长度小于15的字符串，申请3块内存，此时堆管理结构如下：
 ![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-12-01-Hctf-jiushigan/5.png)
 2. 接着删除字符串1、2、3，因为堆块A、B、C都是小于128字节，所以分配和释放都用fast-bin方式进行。释放后的堆块在链表中将后进先出，此时该fast-bin链如下：
 C --> B --> A 
