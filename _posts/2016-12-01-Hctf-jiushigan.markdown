@@ -177,6 +177,8 @@ if __name__ == '__main__':
 			time.sleep(5)
 ```
 
+[题目下载链接](https://github.com/carterMgj/blog_img/blob/master/2016-12-01-Hctf-jiushigan/pwn1)
+
 ### 唠叨几句：
 这是第一次接触到还带猜的pwn，所以详细的记录了一下解题过程。猜的过程也比较有意思，由于主办方采取了一定的防DOS措施：当检测到访问过于频繁时就会禁止访问该题。加之学校ip出口都是一个，校内还有一些大佬也在fuzz这个题，所以导致fuzz过程异常艰难！
 
