@@ -65,7 +65,6 @@ gdb.attach(pidof('pwn1')[-1],open('debug'))
 ![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-12-01-Hctf-jiushigan/4.png)
 
 ### 三. 漏洞利用：
-
 1. 首先输入3个长度小于15的字符串，申请3块内存，此时堆管理结构如下：
 ![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-12-01-Hctf-jiushigan/5.png)
 
