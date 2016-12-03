@@ -15,7 +15,8 @@ tags:
 
 ### 一. 题目描述：
 
-题目只给了一个IP地址和端口，并没有给二进制程序，第一次遇到这类型的题目，感觉很有挑战性。
+题目只给了一个IP地址和端口，并没有给二进制程序，第一次遇到这类型的题目，感觉很有挑战性
+
 题目提示输入password，输入后会显示'No password,no game'字段，然后循环不断地让你输入
 ![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-12-03-Hctf-fuzzPwn/1.png)
 另外主办方提示：
@@ -87,7 +88,7 @@ def exp1():
 
 exp1()
 ```
-结果如下图，可以看到当payload的长度为72时，程序不输出'No password,no game'。
+结果如下图，可以看到当payload的长度为72时，程序不输出'No password,no game'
 ![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-12-03-Hctf-fuzzPwn/2.png)
 **分析：**当输入payload长度为72时,栈溢出函数的EBP被覆盖为无效地址，当函数返回时读取EBP内容无效从而程序崩溃退出，所以未能继续执行输出'No password,no game'。因此覆盖到返回地址之前，需要的payload长度为72。
 
@@ -117,7 +118,7 @@ exp1()
 ```
 发现在0x400700附近，出现了如下图所示的异常：
 ![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-12-03-Hctf-fuzzPwn/3.png)
-- 0x40070c --> 什么都没有收到的情况是因为：返回到了某个需要参数输入的函数，正在等待参数输入；
+- 0x40070c --> 什么都没有收到的情况是因为：返回到了某个需要参数输入的函数，正在等待参数输入
 - 0x400711 --> 打印出'No password,no game'的情况是因为：又返回到了主函数内，从新进行了一遍主函数。
 
 **得出结论：**函数的主代码段就在0x400700附近，因此可以大大缩小了fuzz的范围。0x400711是一个位于主函数中地址，返回到该地址可以成功的输出'No password,no game'
@@ -245,13 +246,9 @@ def exp4():
         except EOFError:
             print'---------------------------------------connect again'
              
-                 
- 
     f=open('code.bin','wb')
     f.write(d)
     f.close()
- 
- 
 #---------------------dump date section
     base=0x601000
     d=''
@@ -270,7 +267,6 @@ def exp4():
         except EOFError:
             print'---------------------------------------connect again'
             io=remote('115.28.78.54',13455)
- 
     f=open('data.bin','wb')
     f.write(d)
     f.close()
@@ -282,6 +278,7 @@ exp4()
 得到code.bin后查看code.bin偏移为0x570地址的内容，该地址为0x400570,对应puts函数的plt表地址，其中应该存放的是一个'jmp *puts_got'指令。
 
 **在这里有一个技巧：**随意拖一个程序到gdb，通过gdb中set命令修改0x400570内存为相应的机器码，就可以从机器码得到汇编代码了。
+
 由下图可知：远端程序puts函数的got表地址为0x601018
 ![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-12-03-Hctf-fuzzPwn/6.png)
 知道put_got表地址后，就可以从data.bin中查看0x18地址,即0x601018地址内容，此时就可以泄露puts函数的内存地址，从而可以泄露libc基址了
