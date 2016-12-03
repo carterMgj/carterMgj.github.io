@@ -120,7 +120,8 @@ exp1()
 ![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-12-03-Hctf-fuzzPwn/3.png)
 **分析:**
 - 0x40070c --> 什么都没有收到的情况是因为：返回到了某个需要参数输入的函数，正在等待参数输入
-- 0x400711 --> 打印出'No password,no game'的情况是因为：又返回到了主函数内，从新进行了一遍主函数。
+
+- 0x400711 --> 打印出'No password,no game'的情况是因为：又返回到了主函数内，从新进行了一遍主函数
 
 **得出结论：**函数的主代码段就在0x400700附近，因此可以大大缩小了fuzz的范围。0x400711是一个位于主函数中地址，返回到该地址可以成功的输出'No password,no game'
 
