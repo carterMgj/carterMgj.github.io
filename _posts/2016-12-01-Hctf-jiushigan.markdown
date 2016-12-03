@@ -67,12 +67,8 @@ gdb.attach(pidof('pwn1')[-1],open('debug'))
 
 
 ### 三. 漏洞利用：
-
-###
 1. 首先输入3个长度小于15的字符串，申请3块内存，此时堆管理结构如下：
 ![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-12-01-Hctf-jiushigan/5.png)
-
-
 2. 接着删除字符串1、2、3，因为堆块A、B、C都是小于128字节，所以分配和释放都用fast-bin方式进行。释放后的堆块在链表中将后进先出，此时该fast-bin链如下：
 C --> B --> A 
 
@@ -84,14 +80,10 @@ C --> B --> A
 ![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-12-01-Hctf-jiushigan/6.png)
 覆盖后：
 ![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-12-01-Hctf-jiushigan/7.png)
-###
 4. 接着释放第2块会调用存放于堆块B中的'处理删除字符串函数'，此时已经被我覆盖为printf函数的地址
-
 ![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-12-01-Hctf-jiushigan/8.png)
 由调试可知，参数正好是输入字符串，所以就可以了任意函数执行并控制参数
 ![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-12-01-Hctf-jiushigan/9.png)
-
-###
 5. 顺利的调用了printf('%170$p')，可以泄露存放在栈上的__libc_start_main+240的地址，从而可以计算出system函数的地址
 
 6. 接着再执行一遍以上过程，从新触发任意函数执行的漏洞，执行system('/bin/sh')即可获取shell
