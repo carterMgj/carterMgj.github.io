@@ -20,8 +20,8 @@ tags:
 题目提示输入password，输入后会显示'No password,no game'字段，然后循环不断地让你输入
 ![图片](https://raw.githubusercontent.com/carterMgj/blog_img/master/2016-12-03-Hctf-fuzzPwn/1.png)
 另外主办方提示：
- 1. 这道题没有必要爆破密码
- 2. 发送的数据量不要超过0x100个
+  1. 这道题没有必要爆破密码
+  2. 发送的数据量不要超过0x100个
 
 ### 二. 思路探究：
 既然是**Blind-fuzz**，感觉题目本身不会太难，估计就是一个简单的栈溢出利用。既然如此，程序保护机制中：栈保护「Canary」、代码段随机化「PIE」都不可能开启。下面就来逐步进行我们的fuzz：
