@@ -214,7 +214,6 @@ route add 192.168.222.131 mask 255.255.255.255 192.168.222.1 metric 1
     ​     由上图可以看到，发生问题的指令是 call dword ptr[edx+28h]，因为 edx+28h 是一个不可访问的地址，所以发生了程序异常退出。再来看看寄存器，此时edx寄存器已经被填充成立0x41414141，也就是被我们的输入可以控制edx的值，由于当前指令为 call dword ptr[edx+28h]，我们也就间接的控制了eip的值，劫持了程序运行流
 
 3. 接下来就进入到写利用的环节。我们首先通过python的socket模块进行编程，来模拟发包过程
-
 ```python
 import socket
 import struct
@@ -237,8 +236,7 @@ s.connect((target,port))
 s.send(buf)
 s.close()
 ```
-
-
+ ​
 4. 打开Immunity debugger，附加到fsws.exe上。因为从发生崩溃的指令地址为 0x0045c8c2，所以在此设置一个断点
   ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/15.png)
   ​
