@@ -60,9 +60,10 @@ tags:
 
 1. 既然要进项协议fuzz，那么首先应该搞清楚和服务器之间的通信协议是怎么样的。随意下载一个可以在应用层进行抓包的软件就可以满足我们的需求，在此我用的是SocketSniff。首先选择需要SoketSniff附加的进程
   ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/6.png)
+
 2. 接着进行正常的登录过程，可以看到SocketSniff已经抓到了该过程的数据包
   ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/7.png)
-  ​
+
 3. 打开第3个数据包，具体内容如下：这个数据包是发送至文件上传页面vfolder.php的，其Cookie里有三个字段，分别为SESSEIONID、UserID和PassID，因为我们是匿名登录，所以UserID和PassID这两个字段都位空，这正是我们想要fuzz的点
   ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/8.png)
 
