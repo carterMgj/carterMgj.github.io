@@ -18,9 +18,14 @@ tags:
 ###    一. 工具：
 
 1.  Peach 3.1
+
 2.  Immunity Debugger （需要安装一个很好用的python脚本：mona.py）
+
 3.  Wireshark  （用于验证fuzz发包过程）
+
 4.  SocketSniff（用于抓包验证协议过程）
+
+    ​
 
 ###    二. 目标：
 
@@ -36,14 +41,11 @@ tags:
 
 ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/1.png)
 
-​	
 2. 安装后是一个类似于ftp功能的web server，提供文件上传下载的功能。打开应用后首先弹出一个注册对话框，点击"Try it"进入到服务器主页面。事实证明，每次打开该软件都会弹出该对话框，只有关闭了这个对话框服务器才会正常启动。因此在fuzz的时候需要通过代码自动关闭该对话框（本文后续部分会具体提到）
   ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/2.png)
 
-  ​
 3. 打开后的界面如下图所示，显示了服务器的ip地址和访问端口
   ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/3.png)
-  ​
 4. 在浏览器中输入服务器ip地址，来到登录界面
   ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/4.png)
   ​
@@ -57,7 +59,6 @@ tags:
 
 1. 既然要进项协议fuzz，那么首先应该搞清楚和服务器之间的通信协议是怎么样的。随意下载一个可以在应用层进行抓包的软件就可以满足我们的需求，在此我用的是SocketSniff。首先选择需要SoketSniff附加的进程
   ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/6.png)
-  ​
 2. 接着进行正常的登录过程，可以看到SocketSniff已经抓到了该过程的数据包
   ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/7.png)
   ​
@@ -193,7 +194,6 @@ route add 192.168.222.131 mask 255.255.255.255 192.168.222.1 metric 1
 ```
 命令生效后，打印查看路由表，可以看到凡是发往192.168.222.131的数据包，均会先发往网关192.168.222.1，这样Wireshark就能抓到数据包了
 ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/10.png)
-​	
 4. 从抓包结果分析，Peach是每次都会变换端口和服务器的80端口建立连接，发送包含畸形数据的HTTP包
   ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/11.png)
   ​
@@ -208,7 +208,6 @@ route add 192.168.222.131 mask 255.255.255.255 192.168.222.1 metric 1
 
 1. 在此Peach调用msec.dll已经根据崩溃现场将crash的利用程度进行了划分，一般情况下，我们只关注EXPLOITABLE文件夹内的crash。打开一个crash文件，发送的数据包中对UserID字段进行了fuzz，填充了很多个'A'，导致服务器处理该数据包时发生了crash
   ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/13.png)
-  ​
 2. 崩溃现场如下图所示：
     ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/14.png)
     ​     由上图可以看到，发生问题的指令是 call dword ptr[edx+28h]，因为 edx+28h 是一个不可访问的地址，所以发生了程序异常退出。再来看看寄存器，此时edx寄存器已经被填充成立0x41414141，也就是被我们的输入可以控制edx的值，由于当前指令为 call dword ptr[edx+28h]，我们也就间接的控制了eip的值，劫持了程序运行流
@@ -234,41 +233,33 @@ buf = (
 s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 s.connect((target,port))
 s.send(buf)
-s.close()
+s.close() 
 ```
- ​
 4. 打开Immunity debugger，附加到fsws.exe上。因为从发生崩溃的指令地址为 0x0045c8c2，所以在此设置一个断点
   ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/15.png)
-  ​
 5. 运行python程序进行发包，程序成功的断在了断点处，F9继续运行，当第四次执行该条指令时，此时的edx被覆盖为0x41414141，esi和edi的值均指向了栈上可以被覆盖的地方
   ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/16.png)
-  ​
 6. 首先确定需要多少字节才能精准覆盖到edx，使用Immunity debugger的mona插件很容易计算出offset为80.
 ```sh
 payload = 'A'*80 + 'B'*4 + 'C'*1000
 ```
 ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/17.png)
-​	
 7. 因为在xp上，并未开启ASLR和NX，所以shellcode可以放到栈上进行执行。因为ESI又指向栈上地址，所以就想首先控制eip到"call esi"或者"jmp esi"这样的指令上去。寻找这样的指令也很简单，首先“alt+E”列出加载的DLL模块。因为payload中不能出现'\x00'，所以找了一个基地址为0x10000000地址的DLL
   ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/18.png)
-  ​
 8. 双击进入到该模块，右键 --> Search for -->  All command，查询"call esi"指令，从中选中一条不包含'\x00'的：0x1001b371
   ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/19.png)
-  ​
 9. 此时payload构造如下
 ```sh
 payload = 'A'*80 + struct.pack("<I", 0x019b68d4) + struct.pack("<I", 0x1001b371) + 'C'*1000
 ```
 ​     如下图所示，此时已经顺利跳转到了"call esi"指令处，但是此时esi指向栈上的0x019b68e8位置，其下四个位置处即是覆盖edx的数据，不能允许被覆盖。如果shellcode放到0x019b68e8 这个地址，那么shellcode的空间只剩下可怜的16个字节。
 ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/20.png)
-​	
 10. 为了解决这个问题，我们在这16个字节处放置过渡指令，即增大esi的值，然后再跳转过去执行。“add esi,0x18    ;    jmp esi”。使用mona的汇编功能，进行汇编转机器码非常方便
 ```sh
 !mona assemble -s add esi,0x28
 ```
 ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/21.png)
 
-​    
 11. 使用这条指令是行不通的，因为指令的机器码中包含了可恶的"\x00"。可以用“sub esi,-0x18”来代替
 
 ```sh
@@ -276,7 +267,6 @@ payload = 'A'*80 + struct.pack("<I", 0x019b68d4) + struct.pack("<I", 0x1001b371)
 ```
 
 ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/22.png)
-​	
 12. 所以此时payload构造如下。如下图，成功执行到调整指令，“jmp esi”时，esi已经指向了我们想要的广阔的栈空间
 
 ```sh
@@ -286,7 +276,6 @@ payload += struct.pack("<I", 0x019b68d4) + struct.pack("<I", 0x1001b371) + “DD
 ```
 
 ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/23.png)
-​	
 13. 将payload中"DDDD"的位置换做shellcode就大功告成了
 
 ```python
