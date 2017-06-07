@@ -49,7 +49,8 @@ tags:
 ​	
 	5. 点击"login as a guest"，便可以方便快速的使用服务器的功能了
 ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/5.png)
-​	
+
+
 >了解协议格式：
 
 	1. 既然要进项协议fuzz，那么首先应该搞清楚和服务器之间的通信协议是怎么样的。随意下载一个可以在应用层进行抓包的软件就可以满足我们的需求，在此我用的是SocketSniff。首先选择需要SoketSniff附加的进程
