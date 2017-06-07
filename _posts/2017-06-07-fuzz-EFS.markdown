@@ -244,14 +244,11 @@ s.close()
   ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/16.png)
   ​
 6. 首先确定需要多少字节才能精准覆盖到edx，使用Immunity debugger的mona插件很容易计算出offset为80.
-
 ```sh
 payload = 'A'*80 + 'B'*4 + 'C'*1000
 ```
-
 ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/17.png)
 ​	
-
 7. 因为在xp上，并未开启ASLR和NX，所以shellcode可以放到栈上进行执行。因为ESI又指向栈上地址，所以就想首先控制eip到"call esi"或者"jmp esi"这样的指令上去。寻找这样的指令也很简单，首先“alt+E”列出加载的DLL模块。因为payload中不能出现'\x00'，所以找了一个基地址为0x10000000地址的DLL
   ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/18.png)
   ​
@@ -259,20 +256,16 @@ payload = 'A'*80 + 'B'*4 + 'C'*1000
   ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/19.png)
   ​
 9. 此时payload构造如下
-
 ```sh
 payload = 'A'*80 + struct.pack("<I", 0x019b68d4) + struct.pack("<I", 0x1001b371) + 'C'*1000
 ```
-
 ​     如下图所示，此时已经顺利跳转到了"call esi"指令处，但是此时esi指向栈上的0x019b68e8位置，其下四个位置处即是覆盖edx的数据，不能允许被覆盖。如果shellcode放到0x019b68e8 这个地址，那么shellcode的空间只剩下可怜的16个字节。
 ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/20.png)
 ​	
 10. 为了解决这个问题，我们在这16个字节处放置过渡指令，即增大esi的值，然后再跳转过去执行。“add esi,0x18    ;    jmp esi”。使用mona的汇编功能，进行汇编转机器码非常方便
-
 ```sh
 !mona assemble -s add esi,0x28
 ```
-
 ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/21.png)
 
 ​    
