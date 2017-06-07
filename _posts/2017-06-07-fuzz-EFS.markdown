@@ -173,14 +173,10 @@ tags:
 ```
 
 在此，需要对三个关键地方进行说明：
-
  - pit文件中的##HOST##:##PORT## ： 是声明两个变量，该变量是在具体fuzz时由外界提供
-
  - Monitor模块中的PopupWatcher方法：是根据弹窗的title，自动关闭该弹窗
-
  - Strategy是Test模块的子元素，提供了参数Sequential，有序对DataModel中的每一个可变元素进行fuzz
 
-​
 2. 使用如下命令：
 ```sh
 peach.exe -DHOST=192.168.222.131 -DPORT=80 efs.xml
