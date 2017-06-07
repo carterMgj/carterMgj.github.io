@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "协议Fuzz：从开发Pit文件到弹计算器全过程"
+title:      "协议Fuzz：从Pit开发到弹计算器"
 subtitle:   "针对Http协议的简单协议fuzz"
 date:       2017-06-07 00:46:25
 author:     "Carter"
@@ -56,6 +56,7 @@ tags:
 
 
 >了解协议格式：
+
 1. 既然要进项协议fuzz，那么首先应该搞清楚和服务器之间的通信协议是怎么样的。随意下载一个可以在应用层进行抓包的软件就可以满足我们的需求，在此我用的是SocketSniff。首先选择需要SoketSniff附加的进程
 
 ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/6.png)
@@ -71,6 +72,7 @@ tags:
 
 
 >编写Pit文件进行Fuzz
+
 1.  针对该HTTP协议，写出对应的pit文件，使用Peach进行fuzz。最终的pit文件如下：
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -209,6 +211,7 @@ route add 192.168.222.131 mask 255.255.255.255 192.168.222.1 metric 1
 
 
 >崩溃文件分析与Exp脚本编写
+
 1. 在此Peach调用msec.dll已经根据崩溃现场将crash的利用程度进行了划分，一般情况下，我们只关注EXPLOITABLE文件夹内的crash。打开一个crash文件，发送的数据包中对UserID字段进行了fuzz，填充了很多个'A'，导致服务器处理该数据包时发生了crash
 
 ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/13.png)
