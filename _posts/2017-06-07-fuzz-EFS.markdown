@@ -30,7 +30,6 @@ tags:
 
 ###   三. 方法论：
 
-
 >安装与使用EFS：
 
 ​	1. 选择了在exploit-db上找到了文章中所说Easy file sharing web server 6.8 的栈溢出漏洞的详情（[https://www.exploit-db.com/exploits/33352/](https://www.exploit-db.com/exploits/33352/)），下载了对应版本的应用
@@ -44,6 +43,7 @@ tags:
 ​	
 	3. 打开后的界面如下图所示，显示了服务器的ip地址和访问端口
 ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/3.png)
+
 
 	4. 在浏览器中输入服务器ip地址，来到登录界面
 ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/4.png)
