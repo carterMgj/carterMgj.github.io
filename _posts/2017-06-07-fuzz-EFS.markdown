@@ -177,14 +177,14 @@ tags:
  - Monitor模块中的PopupWatcher方法：是根据弹窗的title，自动关闭该弹窗
  - Strategy是Test模块的子元素，提供了参数Sequential，有序对DataModel中的每一个可变元素进行fuzz
 
-2. 使用如下命令：
+ - 使用如下命令：
 ```sh
 peach.exe -DHOST=192.168.222.131 -DPORT=80 efs.xml
 ```
    开启Peach开始对Easy file sharing web server 6.8 进行fuzz
 ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/9.png)
-​	
-3. 整个fuzz过程就开始了，因为是Peach内置的TCP模块自动与服务器进行连接发包，为了搞清楚发包的过程和内容，我尝试着用wireshark抓包进行分析，令我意外的是竟然抓不到包。原来fuzz时发送的包发包地址和目的地址都是本地，是属于本地回环包，并没有进过Wireshark监听的本地网卡，所以抓不到包。解决方法也简单，就是通过命令行增加一条路由表
+
+ - 整个fuzz过程就开始了，因为是Peach内置的TCP模块自动与服务器进行连接发包，为了搞清楚发包的过程和内容，我尝试着用wireshark抓包进行分析，令我意外的是竟然抓不到包。原来fuzz时发送的包发包地址和目的地址都是本地，是属于本地回环包，并没有进过Wireshark监听的本地网卡，所以抓不到包。解决方法也简单，就是通过命令行增加一条路由表
 
 ```sh
 // 增加一条路由表项
