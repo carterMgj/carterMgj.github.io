@@ -37,11 +37,13 @@ tags:
 
 ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/1.png)
 
-​	2. 安装后是一个类似于ftp功能的web server，提供文件上传下载的功能。打开应用后首先弹出一个注册对话框，点击"Try it"进入到服务器主页面。事实证明，每次打开该软件都会弹出该对话框，只有关闭了这个对话框服务器才会正常启动。因此在fuzz的时候需要通过代码自动关闭该对话框（本文后续部分会具体提到）。
+​	
+	2. 安装后是一个类似于ftp功能的web server，提供文件上传下载的功能。打开应用后首先弹出一个注册对话框，点击"Try it"进入到服务器主页面。事实证明，每次打开该软件都会弹出该对话框，只有关闭了这个对话框服务器才会正常启动。因此在fuzz的时候需要通过代码自动关闭该对话框（本文后续部分会具体提到）。
 
 ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/2.png)
 
-​	3. 打开后的界面如下图所示，显示了服务器的ip地址和访问端口
+​	
+	3. 打开后的界面如下图所示，显示了服务器的ip地址和访问端口
 
 ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/3.png)
 
