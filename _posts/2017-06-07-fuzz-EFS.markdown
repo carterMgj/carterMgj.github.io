@@ -15,7 +15,7 @@ tags:
 事情的起因是在github上闲逛，看到了一篇老外写的讨论协议fuzz的文章（[https://blog.techorganic.com/2014/05/14/from-fuzzing-to-0-day/](https://blog.techorganic.com/2014/05/14/from-fuzzing-to-0-day/)），虽然全是英文，但也浅显易懂，所以想着按照他提供的思路和流程，仔细走一遍
 
 
-### 一. 工具：
+###       一. 工具：
 
 1.  Peach 3.1
 2.  Immunity Debugger （需要安装一个很好用的python脚本：mona.py）
