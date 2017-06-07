@@ -4,7 +4,7 @@ title:      "协议Fuzz：从Pit开发到弹计算器"
 subtitle:   "针对Http协议的简单协议fuzz"
 date:       2017-06-07 00:46:25
 author:     "Carter"
-header-img: "img/post-bg-digital-native.jpg"
+header-img: "img/post-bg-rwd.jpg"
 tags:
     - Fuzz
     - Peach
