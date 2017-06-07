@@ -238,6 +238,7 @@ s.send(buf)
 s.close()
 ```
 
+
 4. 打开Immunity debugger，附加到fsws.exe上。因为从发生崩溃的指令地址为 0x0045c8c2，所以在此设置一个断点
   ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/15.png)
   ​
