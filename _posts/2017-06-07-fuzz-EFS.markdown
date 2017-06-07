@@ -47,7 +47,7 @@ tags:
 3. 打开后的界面如下图所示，显示了服务器的ip地址和访问端口
   ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/3.png)
 4. 在浏览器中输入服务器ip地址，来到登录界面
-  ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/4.png)
+![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/4.png)
   ​
 5. 点击"login as a guest"，便可以方便快速的使用服务器的功能了
   ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/5.png)
@@ -194,6 +194,7 @@ route add 192.168.222.131 mask 255.255.255.255 192.168.222.1 metric 1
 ```
 命令生效后，打印查看路由表，可以看到凡是发往192.168.222.131的数据包，均会先发往网关192.168.222.1，这样Wireshark就能抓到数据包了
 ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/10.png)
+  ​
 4. 从抓包结果分析，Peach是每次都会变换端口和服务器的80端口建立连接，发送包含畸形数据的HTTP包
   ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-06-07-fuzz-EFS/11.png)
   ​
