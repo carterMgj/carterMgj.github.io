@@ -22,13 +22,13 @@ tags:
 3.  Wireshark  （用于验证fuzz发包过程）
 4.  SocketSniff（用于抓包验证协议过程）
 
-###   二. 目标：
+###    二. 目标：
 
 ​     Easy file sharing web server 6.8
 
 ​    
 
-###  三. 方法论：
+###   三. 方法论：
 
 
 >安装与使用EFS：
