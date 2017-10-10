@@ -4,7 +4,7 @@ title:      "IDA-python 的小小总结"
 subtitle:   "从实际出发，感受IDA-python的魅力"
 date:       2017-10-10 23:36:11
 author:     "Carter"
-header-img: "img/post-bg-os-metro.jpg"
+header-img: "img/post-bg-ios9-web.jpg"
 tags:
     - IDA
     - python
