@@ -52,7 +52,7 @@ len(list(idautils.FuncItems(ea)))
 ```
 3. 获取当前IDB中记录的所有有名字函数的地址和名称： idautils.Names()
   返回的是一个以元组组成的列表，函数的起始地址指向了其plt表
-  ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-10-10-IDA-python/3.png'')
+  ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-10-10-IDA-python/3.png)
 
 >指令操作
 
@@ -100,7 +100,8 @@ printf("level:%d\n",v8);
 printf("secret:%s\n",src);
 ```
 ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-10-10-IDA-python/4.png)
-***
+
+-----------------------------------------------------------------------------------------------------------------------------------
 ```c
 printf("Your Message: ");
 ```
@@ -114,7 +115,8 @@ printf("Your Message: ");
 printf("&dest");
 ```
 ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-10-10-IDA-python/5.png)
-***
+
+-----------------------------------------------------------------------------------------------------------------------------------
 ```c
 printf((const char *)ptr);
 ```
