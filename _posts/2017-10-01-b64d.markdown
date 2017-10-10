@@ -87,12 +87,13 @@ end
 
 source aa
 ```
-解释：
-      1. peda插件是python实现的，因此通过python的支持，获取so库基址
-      2. 自定义gdb命令ppp，该命令的作用是修改栈顶位置为计算出来的'pppr'的gadget地址
-      3. source aa 是将断点信息文件source进来
+解释：  
+      1. peda插件是python实现的，因此通过python的支持，获取so库基址  
+      2. 自定义gdb命令ppp，该命令的作用是修改栈顶位置为计算出来的'pppr'的gadget地址  
+      3. source aa 是将断点信息文件source进来  
 
 >最终exp
+
 ```python
 from pwn import *
 import base64
