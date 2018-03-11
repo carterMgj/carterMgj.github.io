@@ -4,7 +4,7 @@ SEOTitle: Carter的博客 | Carter Blog
 header-img: img/home-bg.jpg
 email: mgjcarter@gmail.com
 description: "黑客与画家 | carter，Security & Sports Lover | 这里是carter的个人博客，记录成长的点点滴滴"
-keyword: "carter,安全圈小白,热爱生活的小梅花"
+keyword: "carter,安全圈从业者,热爱生活的小梅花"
 url: "https://huangxuan.me"              # your host, for absolute URL
 baseurl: ""                             # for example, '/blog' if your blog hosted on 'host/blog'
 
@@ -90,22 +90,16 @@ service-worker: true
 friends: [
     {
         title: "天枢",
-        href: "http://buptdubhe.com/"
+        href: "https://mp.weixin.qq.com/s?src=11&timestamp=1520761433&ver=748&signature=v2cBQEXpj12kuLFK4LrFCwn9Q-V-2bh8lxmpQGXUA8UHGcs9GesTZ3iGvcBBJpbNSjwalzWGK59z2TFE9KEIf2IyznWnjE7fhCafI7ZTzLpI9UvbFZRrmKWoDq2TBaYC&new=1"
     },{
         title: "bluecake",
-        href: "http://www.jianshu.com/users/2056b1040e7d/timeline"
+        href: "https://www.jianshu.com/u/2056b1040e7d"
     },{
         title: "KsisWhite",
         href: "http://ksisw.com/"
     },{
         title: "Hanley Xiao",
         href: "https://x1a0k3.github.io/"
-    },{
-        title: "rocky",
-        href: "http://rockyrays.github.io/"
-    },{
-        title: "Lido_Life",
-        href: "https://lid0.github.io/Blog"
     },{
         title: "恶魔的世界",
         href: "http://www.demongan.com/"
