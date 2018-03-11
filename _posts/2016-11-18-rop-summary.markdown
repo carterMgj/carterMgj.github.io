@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      "linux漏洞利用之 -- ROP探究"
-subtitle:   "全是干货，一点即燃"
+subtitle:   "关于ROP姿势的阶段性总结"
 date:       2016-11-18 16:55:25
 author:     "Carter"
 header-img: "img/post-bg-re-vs-ng2.jpg"

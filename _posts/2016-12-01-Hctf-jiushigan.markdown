@@ -1,7 +1,7 @@
 ---
 layout:     post
-title:      "2016-Hctf题解 -- 就是干"
-subtitle:   "fast-bin内存机制的利用探究"
+title:      "2016-Hctf-Just do it"
+subtitle:   "fast-bin内存机制的探究与利用"
 date:       2016-12-01 16:55:25
 author:     "Carter"
 header-img: "img/post-bg-2015.jpg"

@@ -1,10 +1,10 @@
 ---
 layout:     post
 title:      "pwn--数组越界读写"
-subtitle:   "通过两个题目，实战理解数组越界读写"
+subtitle:   "通过题目，实战理解数组越界读写漏洞"
 date:       2017-11-1 23:36:11
 author:     "Carter"
-header-img: "img/post-bg-ios9-web.jpg"
+header-img: "img/wallhaven-524071.jpg"
 tags:
     - pwn
 ---

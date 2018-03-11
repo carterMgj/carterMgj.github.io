@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "IDA-python 的小小总结"
+title:      "IDA-python学习小结"
 subtitle:   "从实际出发，感受IDA-python的魅力"
 date:       2017-10-10 23:36:11
 author:     "Carter"
@@ -19,7 +19,7 @@ tags:
    IDA python在2004年被开发出来，其目的是为了将python语言的简洁强大和IDA支持的IDC语言结合起来。
 
    IDA python有三个独立的模块组成：  
-   
+
       1. idc：这是兼容idc函数的模块  
       2. idautils：很使用的一个模块，大多数处理都是需要依托于这个模块  
       3. idaapi：允许使用者通过类的形式，访问更多底层的数据  

@@ -83,8 +83,12 @@ tags:
 form pwn import *
 payload2 = fmtstr_payload(7,{printf_got:system_addr})
 ```
+
+
 7是 %n$x 中的那个n
+
 printf_got是将要被覆写的地址
+
 system_addr是想要写入的数据
 
 
@@ -152,6 +156,7 @@ printf(input1)
 ```
 
 >使用方法
+
 1. 该函数有两个参数，第一个参数是覆盖的数据，第二个参数是需要被该数据覆盖的地址
 2. 使用的时候，需要修改函数中的红色字部分，根据gdb调试中，在调用printf函数时，我们的栈上的情况修改成相应的数值。
   如：我们需要修改的地址target_addr和target_addr+2 位于栈上的第14，15个参数，那么相应的红字就应该改为 13和14
@@ -168,6 +173,7 @@ printf(input1)
 我们可以通过多次循环来将任意地址放到栈上地址target。在每次循环中会用到两次fsb，第一次通过fsb修改x内容为target地址，第二次通过fsb即可修改target地址的内容
 
 >实现代码
+
 ```python
 def fsb_write(addr,data):
 	print 'addr = '+hex(addr)
