@@ -6,7 +6,7 @@ date:       2018-02-02 17:35:33
 author:     "Carter"
 header-img: "img/wallhaven-452634.jpg"
 tags:
-    - pwn
+    - fuzz
 ---
 
 

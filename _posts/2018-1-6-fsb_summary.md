@@ -78,14 +78,14 @@ tags:
 根据把需要写入内容分割的细腻度的不同，本文提供一种现成工具实现 和 两种自定义代码实现，均可以实现通过利用一次fsb漏洞，达到任意地址写
 
 ###### 方法一：通过pwntools的fmtstr模块生成payload
+
 ```python
 form pwn import *
 payload2 = fmtstr_payload(7,{printf_got:system_addr})
-
-//7是 %n$x 中的那个n
-//printf_got是将要被覆写的地址
-//system_addr是想要写入的数据
 ```
+7是 %n$x 中的那个n
+printf_got是将要被覆写的地址
+system_addr是想要写入的数据
 
 
 ###### 方法二：将4字节地址分割成4个1字节写入
@@ -93,6 +93,7 @@ payload2 = fmtstr_payload(7,{printf_got:system_addr})
 该方法是把4字节地址分成4个1字节，然后通过一次输入把参数全部布置到栈上，通过一次调用可以修改多处内存值。但是限制就是输入长度较长
 
 >实现代码
+
 ```python
 def generate_format(addr_value):
     payload = ''
@@ -115,6 +116,7 @@ def generate_format(addr_value):
 ```
 
 >使用方法
+
 1. 函数有一个参数，该参数是一个由元组组成的列表，类似于以下形式 [(1_got,111),(2_got,222)]
 2. 使用时需要修改红色字部分，解释一下两处红色字如何修改：   图中两处注释解释了下面代码部分 100和32的由来
   ![1](https://raw.githubusercontent.com/carterMgj/blog_img/master/2018-1-6-fsb_summary/1.png)
