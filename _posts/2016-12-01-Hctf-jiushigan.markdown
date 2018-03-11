@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "2016-Hctf-Just do it"
+title:      "2016Hctf-Just do it"
 subtitle:   "fast-bin内存机制的探究与利用"
 date:       2016-12-01 16:55:25
 author:     "Carter"
