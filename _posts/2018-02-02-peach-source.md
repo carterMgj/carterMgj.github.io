@@ -1,17 +1,17 @@
 ---
 layout:     post
-title:      "peach框架源码阅读"
-subtitle:   "多实践、勤总结"
+title:      "peach框架源码调试"
+subtitle:   "多读框架，站在巨人肩膀上思考"
 date:       2018-02-02 17:35:33
 author:     "Carter"
-header-img: "img/post-bg-ios9-web.jpg"
+header-img: "img/wallhaven-452634.jpg"
 tags:
     - pwn
 ---
 
 
 
-# peach源码阅读
+## peach源码阅读
 
 ### 前言
 接触peach这个框架也有一年多时间了，平时只是停留在使用层面，最近有一个论文思路需要在peach的源码上进行修改来验证，借此机会好好的看了两天peach源码。
@@ -20,7 +20,7 @@ tags:
 
 PS：此次peach源码版本为3.1.124
 
-##一. vs2010调试环境搭建
+### 一. vs2010调试环境搭建
 peach官方提供了源码编译方法（http://community.peachfuzzer.com/v3/Installation.html）
 但是不能通过调试器进行调试，因此首先搭建了vs2010的调试环境
 1. 生成vs2010能打开的sln格式文件
@@ -45,7 +45,7 @@ peach官方提供了源码编译方法（http://community.peachfuzzer.com/v3/Ins
  - F5：  执行到下一个断点
 
 
-##二. 处理流程分析
+### 二. 处理流程分析
 1. **peach -- program.cs**，此处是整个peach框架执行的起始位置，在此处通过调用，开始执行peach.core工程中的核心代码
 ```c#
 40  public class Program 
@@ -249,7 +249,7 @@ OnDataMutating函数有3个参数：data，elem和mutator，指定了使用哪�
 obj的内容非常丰富，如下图所示
   ![img11](https://raw.githubusercontent.com/carterMgj/blog_img/master/2018-02-02-peach-source/11.png)
 
-## 3. 后记
+### 3. 后记
  - 此时重点阅读的源码只是peach源码中初始化和变异的部分，对于agent、monitor、通信交互等模块均没有涉及
  - 原本计划通过理解源码，将peach变异的模块分解出来方便日后其他框架的移植，但由于参数的数据结构太复杂，最终也没有能够成功，这一部分作为以后的工作来持续跟进
  - 以上对于peach源码的理解还远远不够，由于能力有限，有说明有误的地方还请多多指正；也欢迎各位对peach源码有一定理解的朋友一起讨论，共同进步
